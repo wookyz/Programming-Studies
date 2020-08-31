@@ -1,5 +1,7 @@
 from node import Node
+from queue import Queue
 
+ROOT = "root"
 class BinaryTree():
     
     def __init__(self,data=None):
@@ -9,38 +11,60 @@ class BinaryTree():
         else:
             self.root = None
 
-    def simetric_transversal(self,node=None):
+    def inorder_traversal(self,node=None):
         if node is None:
             node = self.root
         if node.left:
-            print('(',end='')
-            self.simetric_transversal(node.left)
-        print(node, end='')
+            self.inorder_traversal(node.left)
+        print(node, end=' ')
         if node.right:
-            self.simetric_transversal(node.right)
-            print(')',end='')
+            self.inorder_traversal(node.right)
 
 
-if __name__ == "__main__":
-    tree = BinaryTree(7)
-    n1 = Node('a')
-    n2 = Node('+')
-    n3 = Node('*')
-    n4 = Node('b')
-    n5 = Node('-')
-    n6 = Node('/')
-    n7 = Node('c')
-    n8 = Node('d')
-    n9 = Node('e')
+    def postorder_traversal(self,node=None):
+        if node is None:
+            node = self.root
+        if node.left:
+            self.postorder_traversal(node.left)
+        if node.right:
+            self.postorder_traversal(node.right)
+        print(node)
 
-    n6.left = n7
-    n6.right = n8
-    n5.left = n6
-    n5.right = n9
-    n3.left = n4
-    n3.right = n5
-    n2.left = n1
-    n2.right = n3
-    tree.root = n2
 
-    tree.simetric_transversal()
+    def preorder_traversal(self,node=None):
+        if node is None:
+            node = self.root
+        print(node, end=" ")
+        if node.left:
+            self.preorder_traversal(node.left)
+        if node.right:
+            self.preorder_traversal(node.right)
+
+    
+    def height(self,node=None):
+        if node is None:
+            node = self.root
+        hleft = 0
+        hright = 0
+        if node.left:
+            hleft = self.height(node.left)
+        if node.right:
+            hright = self.height(node.right)
+        if hright > hleft:
+            return hright + 1
+        return hleft
+
+
+    def levelorder_traversal(self,node=ROOT):   
+        if node == ROOT:
+            node = self.root
+
+        queue = Queue()
+        queue.push(node)
+        while len(queue):
+            queue.pop()
+            if node.left:
+                queue.push(node.left)
+            if node.right:
+                queue.push(node.right)
+            print(node, end=" ")
